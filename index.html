@@ -4,6 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+      }
+
+      .tooltip::after {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        content: attr(data-message);
+        /* content: 'text'; */
+      }
+
+      .tooltip:hover::after {
+        visibility: visible;
+      }
+    </style>
   </head>
   <body>
        <div class="modal-size-tabel__wrap-hidden modal-size-tabel__wrap-hide">
@@ -21,7 +48,7 @@
     </div>
  <div class="element-input-container number-input-height">
       <input
-        class="input-heigth input-calculator"
+        class="input-heigth input-calculator tooltip data-message=''"
         data-unit="cm"
         type="number"
         min="145"
@@ -31,6 +58,7 @@
              placeholder="height" 
       />
       <span class="calculator-label-postfix">cm</span>
+      <!--<span class="tooltiptext">Tooltip text</span>-->
     </div>
   </div>
 </span>       
@@ -54,13 +82,7 @@
     </div>
   </div>
 </span>
-        
-        
-        
-               
-   
-          
-          
+
       <div class="ks-calculator-element input-element select-input-type modal-size-tabel__select-box-wrap">
     
       <div class="calculator-label  modal-size-tabel__select-box">
