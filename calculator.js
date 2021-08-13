@@ -16,6 +16,8 @@ let weightField = document.querySelector(".input-weigth");
 
 let heigh = 145;
 let weight = 40;
+let heightChecking = false
+let weightChecking = false
 let sizeMessage = "Ti consigliamo la taglia: ";
 
 let selectForm = document.querySelector(".modal-size-tabel__select");
@@ -23,47 +25,82 @@ let selectValue = 0;
 
 // event listeners calculator
 
-heightField.addEventListener("change", distributeSizes);
-heightField.addEventListener("keydown", prevenNumberImput);
+// heightField.addEventListener("change", distributeSizes);
+heightField.addEventListener("input", onHeightFieldChaned);
+heightField.addEventListener("keydown", preventNonNumericImput);
 
-weightField.addEventListener("change", distributeSizes);
-weightField.addEventListener("keydown", prevenNumberImputW);
+// weightField.addEventListener("change", distributeSizes);
+weightField.addEventListener("input", onWeightFieldChaned)
+weightField.addEventListener("keydown", preventNonNumericImput);
+
 selectForm.addEventListener("change", distributeSizes);
 selectForm.addEventListener("change", renderTypeMessage);
 
-// prevent default height
-function prevenNumberImput(event) {
-  // let regexp = /[ˆ0-9]{3}/gi;
-  if (!/\d/.test(event.key) && event.key !== "Backspace") {
-    console.log(typeof event.key, event.key + " " + "number");
+function isNumberOrBackspace(key) {
+  return /[0-9]/.test(key) || key === "Backspace"
+}
 
-    event.preventDefault();
-  }
-  {
-    console.log("else number", heightField.value - 10);
+// prevent default
+function preventNonNumericImput(event) {
+  if(!isNumberOrBackspace(event.key)) {
+    event.preventDefault()
   }
 }
 
-// prevent default weight
-
-function prevenNumberImputW(event) {
-  // let regexp = /[ˆ0-9]{3}/gi;
-  if (!/\d/.test(event.key) && event.key !== "Backspace") {
-    let char = event.key;
-    console.log(char, typeof char);
-    console.log(event.key);
-    event.preventDefault();
-  } else if (/[ˆ0-9]/gi.test(event.key)) {
-    console.log("If number 0", typeof event.key);
-    let weightValue = Number(weightField.value - 10);
-    console.log(weightValue, typeof weightValue);
-  } else if (!/[ˆ0-9]/gi.test(event.key)) {
-    console.log("If string");
-  } else if (/\d/.test(event.key)) {
-    console.log("If number /d", typeof event.key);
+function onHeightFieldChaned(event) {
+  if (!heightChecking) {
+    heightChecking = true
+    let height = Number(heightField.value)
+    if(height < 145) {
+      setTimeout(()=>{
+        height = Number(heightField.value)
+        if(height < 145) {
+          heightField.value = 145
+        } else if (height > 210) {
+          heightField.value = 210
+        }
+        heightChecking = false
+        distributeSizes()
+      }, 3000)
+    } else if (height > 210) {
+      heightField.value = 210
+      heightChecking = false
+      distributeSizes()
+    } else {
+      heightChecking = false
+      distributeSizes()
+    }
   }
-  console.log("else text");
 }
+
+function onWeightFieldChaned(event) {
+  console.log('weightChecking = ', weightChecking)
+  if (!weightChecking) {
+    weightChecking = true
+    let weight = Number(weightField.value)
+    console.log('weight = ', weight)
+    if(weight < 40) {
+      setTimeout(()=>{
+        weight = Number(weightField.value)
+        if(weight < 40) {
+          weightField.value = 40
+        } else if (weight > 120) {
+          weightField.value = 120
+        }
+        weightChecking = false
+        distributeSizes()
+      }, 3000)
+    } else if (weight > 120) {
+      weightField.value = 120
+      weightChecking = false
+      distributeSizes()
+    } else {
+      weightChecking = false
+      distributeSizes()
+    }
+  }
+}
+
 // functions
 
 function renderSizeToDom(a) {
