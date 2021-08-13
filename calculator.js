@@ -50,10 +50,10 @@ function preventNonNumericImput(event) {
 function onHeightFieldChaned(event) {
   if (!heightChecking) {
     heightChecking = true
-    heightField.dataset.date = ''
+    heightField.dataset.message = ''
     let height = Number(heightField.value)
     if(height < 145) {
-      heightField.dataset.date = 'Please select a value that is no less than 145'
+      heightField.dataset.message = 'Please select a value that is no less than 145!'
       setTimeout(()=>{
         height = Number(heightField.value)
         if(height < 145) {
@@ -61,7 +61,7 @@ function onHeightFieldChaned(event) {
         } else if (height > 210) {
           heightField.value = 210
         }
-        heightField.dataset.date = ''
+        heightField.dataset.message = ''
         heightChecking = false
         distributeSizes()
       }, 3000)
