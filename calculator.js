@@ -11,8 +11,9 @@ const typeMessage = [
 let sizes = ["S", "M", "L", "XL"];
 const sizeRenderField = document.querySelector(".modal-size-tabel_size-render");
 
-let heightField = document.querySelector(".input-heigth");
-let weightField = document.querySelector(".input-weigth");
+const heightField = document.querySelector(".input-heigth");
+const weightField = document.querySelector(".input-weigth");
+const pleaseWaitHeader = document.getElementById("please-wait");
 
 const MIN_HEIGHT = 145
 const MAX_HEIGHT = 210
@@ -22,6 +23,8 @@ const MAX_WEIGHT = 120
 const CHECKING_STAGES = {
   ZERO: 0, FIRST: 1, SECOND: 2
 }
+
+const TRY_CHANGE_BOUNDES_PLEASE_WAIT_TEXT = "Trying to change ranges ..."
 
 let sizeMessage = "Ti consigliamo la taglia: ";
 
@@ -320,6 +323,7 @@ function checkHeightFieldValue() {
     let height = Number(heightField.value)
     // let weight = Number(weightField.value)
     if (!state.rangesChangedAutomatically) {
+      pleaseWaitHeader.innerText = TRY_CHANGE_BOUNDES_PLEASE_WAIT_TEXT
       state.rangesChangedAutomatically = true
       if (height < state.currentMinHeight || height > state.currentMaxHeight) {
         setTimeout(() => {
@@ -363,6 +367,7 @@ function checkWeightFieldValue() {
     // let height = Number(heightField.value)
     let weight = Number(weightField.value)
     if (!state.rangesChangedAutomatically) {
+      pleaseWaitHeader.innerText = TRY_CHANGE_BOUNDES_PLEASE_WAIT_TEXT
       state.rangesChangedAutomatically = true
       if(weight < state.currentMinWeight || weight > state.currentMaxWeight) {
         setTimeout(() => {
@@ -495,7 +500,7 @@ function distributeSizes() {
         sizeRenderField.innerHTML = " Questa misura non e disponibile"
       }
     }
-
+    pleaseWaitHeader.innerText = ''
     state.rangesChangedAutomatically = false
   }
 }
